@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>blogfy</title>
+    <%- include('./partials/style') %>  
+    <style>
+        .div1{
+            border:2px solid red;
+            display: flex;
+        }
+        .userImage{
+            border:2px solid black;
+
+        }
+        .btn1{
+            margin-top: 2%;      
+            margin-bottom: 2%;
+
+        }
+        .btn1 a{
+            text-decoration: none;
+            color: white;
+        }
+      </style>   
+</head>
+<body>
+    <%- include('./partials/nav') %>
+
+    <div class="container mt-4">
+        <div class="card mb-3 mx-auto" style="max-width: 540px;">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <% if (locals.user.profileImage) { %>   
+                 <img  src="data:image/jpeg;base64,<%= user.profileImage.toString('base64') %>" class="img-fluid rounded-start h-100" alt="...">
+                <% } %>
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">Name : <%= user.name %></h5>
+                  <h5 class="card-title">Email : <%= user.email %></h5>
+                  <h5 class="card-title">Role : <%= user.role %></h5>
+                </div>
+                <div class="container btn1 ">
+                  <button  class="btn btn-primary "><a href="/user/profile/update"> update profile</a></button>
+              </div>
+              </div>
+            </div>
+          </div>
+          <% if (locals.blogs) { %>
+      
+            <h2 class="my-4">Blogs Created by <%= user.name %></h2>
+              <div class=" row row-cols-3">
+                  <% blogs.forEach(blog => { %>
+                      <div class="col mb-3 ">
+                      <div class="card col" style="width: 18rem;">
+                          <div class="coverimage">
+                            <% if (blog.coverImage) { %>
+                              <img src="data:image/jpeg;base64,<%= blog.coverImage.toString('base64') %>" class="card-img-top h-100" alt="...">
+                            <% } %>
+                          </div>
+                          <div class="card-body">
+                            <h5 class="card-title"><%= blog.title %></h5>
+                            <a href="/blog/<%=blog._id %>" class="btn btn-primary">view</a>
+                          </div>
+                        </div>
+                      </div>
+                  <% }) %>
+              </div>
+              
+          
+          
+         <% } %>
+
+       </div>
+      
+   
+
+ 
+    <%- include('./partials/script') %>
+</body>
+</html>

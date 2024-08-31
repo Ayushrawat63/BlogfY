@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>blogfy</title>
+    <%- include('./partials/style') %>  
+    <style>
+        .coverimage{
+          height: 25vh;
+          /* border: 2px solid red; */
+           object-fit: cover;
+        }
+      </style>   
+</head>
+<body>
+    <%- include('./partials/nav') %>
+    <div class="container mt-4">
+        <div class=" row row-cols-3">
+            <% blogs.forEach(blog => { %>
+                <div class="col mb-5 ">
+                <div class="card col" style="width: 18rem;">
+                    <div class="coverimage">
+                        <img src="data:image/jpeg;base64,<%= blog.coverImage.toString('base64') %>" class="card-img-top h-100" alt="...">
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title"><%= blog.title %></h5>
+                      <a href="/blog/<%= blog._id %>" class="btn btn-primary">view</a>
+                    </div>
+                  </div>
+                </div>
+            <% }) %>
+        </div>
+        
+    </div>
+    <%- include('./partials/script') %>
+</body>
+</html>
