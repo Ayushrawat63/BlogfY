@@ -1,27 +1,19 @@
 const { Router } = require("express");
-const User = require("../models/user");
-const Blog =require('../models/blog')
 const upload=require('../config/multer');
-const Comment = require("../models/comment");
+const Blog =require('../models/blog');
+
+const { blogsShow, blogUpload, showBlogById } = require("../controller/blogCreation");
 const router= Router()
 
 
-router.get('/', async(req,res)=>{
-    try{
-        const user=await User.findOne({_id:req.user.id})
-            res.render("blogCreate",{
-                user
-            });
-        }
-        catch(Err){
-       console.log(Err)
-        }
-})
+router.get('/',blogsShow)
 
 
-router.post("/create",upload.single("CoverImage"), async(req,res)=>{
+router.post("/create",upload.single("CoverImage"),async(req,res)=>{
     try{
           let {Title,Content}=req.body
+          console.log(req.body)
+          console.log(req.file)
           const newBlog=await Blog.create({
             title:Title,
             content:Content,
@@ -37,23 +29,6 @@ router.post("/create",upload.single("CoverImage"), async(req,res)=>{
         }
 })
 
-router.get('/:id',async(req,res)=>{
-    try{
-        const user=await User.findOne({_id:req.user.id})
-        const blog= await Blog.findOne({_id:req.params.id}).populate("createdBy")
-        const comments=await Comment.find({blogId:req.params.id}).populate("createdBy")
-        
-        res.render('blogData',{
-            blog,
-            user,
-            comments
-        })
-    }
-    catch(Err)
-    {
-       console.log(Err)
-       res.status(500).json({message:"Internal server error"})
-    }
-})
+router.get('/:id',showBlogById)
 
 module.exports=router
